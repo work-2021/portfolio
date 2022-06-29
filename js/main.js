@@ -122,6 +122,7 @@ let prevFormBtn = document.getElementById('prevForm');
 let nextFormBtn = document.getElementById('nextForm');
 let emailValid = /^[a-zA-Z]+([0-9]+)?@[a-zA-Z]+([0-9]+)?(.[a-z]+)$/;
 let textValid = /^[a-zA-Z ]{2,30}$/;
+let textValidTextbox = /^[a-zA-Z ]{2,}$/;
 let specialChar = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 let numbers = /[0-9]/;
 let inputFeilds = document.querySelectorAll('.contact .content form input');
@@ -130,7 +131,7 @@ let currentBlock = 1;
 contactBtn.onclick = () => {
   body.classList.add('stop-scroll');
   layer.classList.add('active');
-  layer.style.zIndex = '150';
+  layer.style.zIndex = '160';
   layer.style.pointerEvents = 'none';
   nav.style.pointerEvents = 'none';
   form.classList.add('show');
@@ -241,7 +242,7 @@ inputFeilds.forEach((input) => {
 });
 
 messageBox.oninput = () => {
-  if (messageBox.value.match(textValid)) {
+  if (messageBox.value.match(textValidTextbox)) {
     messageBox.nextElementSibling.innerHTML = '<span></span>';
     messageBox.nextElementSibling.children[0].classList.remove('false');
     messageBox.style.borderColor = '#ddd';
