@@ -1,4 +1,3 @@
-alert("I'm still working on it");
 let buttons = document.querySelectorAll('button');
 buttons.forEach((button) => {
   button.addEventListener("click", function(e) {
@@ -41,11 +40,11 @@ function removeActiveLinks() {
 }
 let nav = document.querySelector('header nav');
 window.onscroll = () => {
-  nav.classList.toggle('scroll',window.scrollY > 0);
+  nav.classList.toggle('scroll', window.scrollY > 0);
 };
 let detailsBtns = document.querySelectorAll('.portfolio .content .options button:last-of-type');
 let details = document.querySelectorAll('.portfolio .content ul');
-detailsBtns.forEach((detailsBtn,index) => {
+detailsBtns.forEach((detailsBtn, index) => {
   detailsBtn.onclick = () => {
     details[index].classList.toggle('active');
   };
@@ -67,6 +66,7 @@ nextBtn.onclick = () => {
     check();
   }
 };
+
 function check() {
   removeAllActive();
   removeAllActiveInd();
@@ -91,64 +91,190 @@ indicators.forEach((indicator, ind) => {
     check();
   };
 });
+
 function removeAllActive() {
   testimonialsCards.forEach((card) => {
     card.classList.remove('active');
   });
 }
+
 function removeAllActiveInd() {
   indicators.forEach((indicator) => {
     indicator.classList.remove('active');
   });
 }
-let inputs = document.querySelectorAll('.contact form input');
-let textarea = document.getElementById('message');
-let rgx1 = /^[a-zA-Z]+([0-9]+)?@[a-zA-Z]+([0-9]+)?(.[a-z]+)$/i;
-let rgx2 = /^[a-zA-Z!@#\$%\^\&*\)\(+=._-]{2,}$/i;
-let rgx3 = /^[a-zA-Z!@#\$%\^\&*\)\(+=._-]{10,200}$/i;
-inputs.forEach((el) => {
-  if (el.getAttribute('type') === 'email') {
-    el.onblur = () => { 
-      checkForm(el, rgx1, 'please enter a valid email address');
-    };
-  } else {
-    el.onblur = () => { checkForm(el, rgx2, 'please enter a correct name'); };
+let loadMoreBtn = document.querySelector('#loadMore');
+let cardsWorks = document.querySelectorAll('.portfolio .cards .card');
+currentCard = 1;
+loadMoreBtn.onclick = () => {
+  for (let i = currentCard; i < currentCard + 1; i++) {
+    cardsWorks[i].classList.add('active');
   }
-});
-textarea.onblur = () => { checkForm(textarea, rgx3, 'please enter a message');
+  currentCard++;
+  if (currentCard >= cardsWorks.length) {
+    loadMoreBtn.classList.add('active');
+  }
 };
-
-function checkForm(input, regx, msg) {
-  if (regx.test(input.value)) {
-    input.classList.remove('active');
-    input.nextElementSibling.classList.remove('active');
-    input.nextElementSibling.lastElementChild.textContent = '';
+let blocksInfo = document.querySelectorAll('.contact .content form > div');
+let contactBtn = document.getElementById('contactFormBtn');
+let form = document.querySelector('.contact .content form');
+let prevFormBtn = document.getElementById('prevForm');
+let nextFormBtn = document.getElementById('nextForm');
+let emailValid = /^[a-zA-Z]+([0-9]+)?@[a-zA-Z]+([0-9]+)?(.[a-z]+)$/;
+let textValid = /^[a-zA-Z ]{2,30}$/;
+let specialChar = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+let numbers = /[0-9]/;
+let inputFeilds = document.querySelectorAll('.contact .content form input');
+let messageBox = document.querySelector('.contact .content form textarea');
+let currentBlock = 1;
+contactBtn.onclick = () => {
+  body.classList.add('stop-scroll');
+  layer.classList.add('active');
+  layer.style.zIndex = '150';
+  layer.style.pointerEvents = 'none';
+  nav.style.pointerEvents = 'none';
+  form.classList.add('show');
+  nextFormBtn.style.display = '';
+  prevFormBtn.style.display = '';
+  currentBlock = -1;
+  nextFormBtn.click();
+  inputFeilds[0].focus();
+  contactBtn.className = 'disabled';
+  nextFormBtn.className = 'disabled';
+};
+let specialContent = blocksInfo[4];
+nextFormBtn.onclick = () => {
+  
+  if (!nextFormBtn.classList.contains('disabled')) {
+    currentBlock++;
+    nextPrevForm();
+  }
+};
+prevFormBtn.onclick = () => {
+  if (!prevFormBtn.classList.contains('disabled')) {
+    currentBlock--;
+    nextPrevForm();
+  }
+};
+function nextPrevForm() {
+  removeAllActiveForm();
+  blocksInfo[currentBlock].classList.add('show');
+  if (currentBlock == 3) {
+    nextFormBtn.innerHTML = 'Send';
+    messageBox.focus();
   } else {
-    input.classList.add('active');
-    input.nextElementSibling.classList.add('active');
-    input.nextElementSibling.lastElementChild.textContent = msg;
+    nextFormBtn.innerHTML = 'Next';
+  }
+  if (currentBlock == 2) {
+    inputFeilds[2].focus();
+  }
+  if (currentBlock == 1) {
+    inputFeilds[1].focus();
+  }
+  if (currentBlock == blocksInfo.length - 1) {
+    nextFormBtn.className = 'disabled';
+    nextFormBtn.style.display = 'none';
+    prevFormBtn.style.display = 'none';
+    setTimeout(() => {
+      form.classList.remove('show');
+      contactBtn.className = '';
+      specialContent.className = '';
+      nextFormBtn.className = '';
+      prevFormBtn.className = 'disabled';
+      inputFeilds.forEach((input) => {
+        input.value = '';
+      });
+      messageBox.value = '';
+      body.classList.remove('stop-scroll');
+      layer.classList.remove('active');
+      layer.style.zIndex = '100';
+      layer.style.pointerEvents = '';
+      nav.style.pointerEvents = '';
+    }, 2000);
+  } else {
+    nextFormBtn.className = 'disabled';
+  }
+  if (currentBlock == 0) {
+    prevFormBtn.className = 'disabled';
+  } else {
+    prevFormBtn.className = '';
   }
 }
-let form = document.getElementById('form');
-let errorMsg = document.querySelectorAll('.contact .content form div p');
-form.onsubmit = (event) => {
-  console.log('ok');
-  inputs.forEach((item) => {
-    item.blur();
-  });
-  textarea.blur();
-  errorMsg.forEach((item) => {
-    if (item.classList.contains('active')) {
-      event.preventDefault();
+inputFeilds.forEach((input) => {
+  if (input.type === 'text') {
+    input.oninput = () => {
+      if (input.value.match(textValid)) {
+        input.nextElementSibling.innerHTML = '<span></span>';
+        input.nextElementSibling.children[0].classList.remove('false');
+        input.style.borderColor = '#ddd';
+        nextFormBtn.className = '';
+      } else {
+        if (input.value.match(specialChar)) {
+          input.nextElementSibling.innerHTML = '<span></span>it contains special characters.';
+        } else if (input.value.match(numbers)) {
+          input.nextElementSibling.innerHTML = '<span></span>it contains numbers.';
+        } else if (input.value.length > 30) {
+          input.nextElementSibling.innerHTML = '<span></span>it contains more than 30 characters';
+        } else if (input.value.length < 2) {
+          input.nextElementSibling.innerHTML = '<span></span>it contains less than 2 characters';
+        }
+        input.nextElementSibling.children[0].classList.add('false');
+        input.style.borderColor = '#FF3E3E';
+        nextFormBtn.className = 'disabled';
+      }
+    };
+  } else {
+    input.oninput = () => {
+      if (input.value.match(emailValid)) {
+        input.nextElementSibling.innerHTML = '<span></span>';
+        input.nextElementSibling.children[0].classList.remove('false');
+        input.style.borderColor = '#ddd';
+        nextFormBtn.className = '';
+      } else {
+        input.nextElementSibling.innerHTML = '<span></span>please enter a valid email address.';
+        input.nextElementSibling.children[0].classList.add('false');
+        input.style.borderColor = '#FF3E3E';
+        nextFormBtn.className = 'disabled';
+      }
+    };
+  }
+});
+
+messageBox.oninput = () => {
+  if (messageBox.value.match(textValid)) {
+    messageBox.nextElementSibling.innerHTML = '<span></span>';
+    messageBox.nextElementSibling.children[0].classList.remove('false');
+    messageBox.style.borderColor = '#ddd';
+    nextFormBtn.className = '';
+  } else {
+    if (messageBox.value.length < 2) {
+      messageBox.nextElementSibling.innerHTML = '<span></span>it contains less than 2 characters';
     }
-    if (item.previousElementSibling.value === '') {
-      textarea.nextElementSibling.classList.add('active');
-      textarea.nextElementSibling.lastElementChild.textContent = 'please add some information';
-      event.preventDefault();
-    }
+    messageBox.nextElementSibling.children[0].classList.add('false');
+    messageBox.style.borderColor = '#FF3E3E';
+    nextFormBtn.className = 'disabled';
+  }
+};
+function removeAllActiveForm() {
+  blocksInfo.forEach((block) => {
+    block.classList.remove('show');
   });
+}
+let newsletterForm = document.querySelector('.newsletter form input');
+newsletterForm.oninput = () => {
+  if (newsletterForm.value.match(emailValid)) {
+    newsletterForm.nextElementSibling.innerHTML = '<span></span>';
+    newsletterForm.parentElement.classList.remove('false');
+    newsletterForm.style.borderColor = '#ddd';
+  } else {
+    newsletterForm.nextElementSibling.innerHTML = '<span></span>please enter a valid email address.';
+    newsletterForm.parentElement.classList.add('false');
+    newsletterForm.style.borderColor = '#FF3E3E';
+  }
 };
-let newsletterEmail = document.querySelector('.newsletter form input');
-newsletterEmail.onblur = () => {
-  checkForm(newsletterEmail, rgx1, 'please enter a valid email address');
-};
+let sendSubscribe = document.getElementById('subscribe');
+sendSubscribe.onclick = () => {
+  if (!newsletterForm.parentElement.classList.contains('false')) {
+    newsletterForm.value = '';
+  }
+}

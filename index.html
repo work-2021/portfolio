@@ -40,7 +40,7 @@
       <div class="text">
         <h1>Hi, I am <span>John Doe</span></h1>
         <p><span>I build beautiful websites and <br />I love what I do.</span><br />Front-end web development, also known as client-side development is the practice of producing HTML, CSS and JavaScript for a website or Web Application so that a user can see and interact with them directly</p>
-        <button>Resum</button>
+        <button>Resume</button>
       </div>
     </div>
   </header>
@@ -180,7 +180,7 @@
           <p class="time">Last updated 20 Feb 2022</p>
         </div>
       </div>
-      <button>Load More</button>
+      <button id="loadMore">Load More</button>
     </div>
   </section>
   <section class="testimonials" id="testimonials">
@@ -230,36 +230,31 @@
       <div class="img-box">
         <img src="images/contact.svg" alt="contact image" />
       </div>
-      <form novalidate autocomplete="off" id="form">
-        <div>
-          <input type="text" id="firstName" placeholder="first name" required enterkeyhint="gg" />
-          <p>
-            <img src="images/error.svg" alt="error icon" />
-            <span></span>
-          </p>
+      <button id="contactFormBtn">Contact</button>
+      <form autocomplete="off" id="form">
+        <div class="show">
+          <input type="text" id="firstName" placeholder="first name" required />
+          <div></div>
         </div>
         <div>
           <input type="text" id="lastName" placeholder="last name" required />
-          <p>
-            <img src="images/error.svg" alt="error icon" />
-            <span></span>
-          </p>
+          <div></div>
         </div>
         <div>
           <input type="email" id="email" placeholder="e-mail address" required />
-          <p>
-            <img src="images/error.svg" alt="error icon" />
-            <span></span>
-          </p>
+          <div></div>
         </div>
         <div>
           <textarea id="message" placeholder="message" required></textarea>
-          <p>
-            <img src="images/error.svg" alt="error icon" />
-            <span></span>
-          </p>
+          <div></div>
         </div>
-        <button type="submit">Send Message</button>
+        <div>
+          <img src="images/check-form.svg
+                    " alt="check icon">
+          <p>Thanks for your message</p>
+        </div>
+        <button id="prevForm" class="disabled">Previous</button>
+        <button id="nextForm" type="submit">Next</button>
       </form>
     </div>
   </section>
@@ -282,10 +277,10 @@
       <div>
         <h4>Contact</h4>
         <ul>
-          <li><span>Phone</span><br>0987654321</li>
-          <li><span>Email</span><br>example@company.com</li>
+          <li><span>Phone(Whatsapp)</span><br>+963935901242</li>
+          <li><span>Email</span><br>hitmanrel1996@gmail.com</li>
           <li><span>Address</span><br>st. Baghdad building 124 Damascus</li>
-          <li><span>Work Time</span><br>open at 07:00 AM until 05:00 PM</li>
+          <li><span>Work Time</span><br>open all time</li>
         </ul>
       </div>
     </div>
@@ -293,12 +288,9 @@
       <form>
         <div>
           <input type="email" id="emailFooter" placeholder="e-mail address" required />
-          <p>
-            <img src="images/error.svg" alt="error icon" />
-            <span></span>
-          </p>
+          <div></div>
         </div>
-        <button type="submit">Subscribe</button>
+        <button type="submit" id="subscribe">Subscribe</button>
       </form>
       <div class="social">
         <img src="images/facebook.svg" alt="facebook logo">

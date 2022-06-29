@@ -415,6 +415,13 @@ nav.scroll {
   overflow: hidden;
   transition: .4s;
 }
+.portfolio .cards .card:nth-of-type(2),
+.portfolio .cards .card:nth-of-type(3) {
+  display: none;
+}
+.portfolio .cards .card.active {
+  display: block;
+}
 .portfolio .img-box {
   height: 235px;
   margin-bottom: 5px;
@@ -507,6 +514,9 @@ nav.scroll {
 .portfolio .cards > button {
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+.portfolio .cards > button.active {
+  display: none;
 }
 .testimonials {
   overflow: hidden;
@@ -650,6 +660,12 @@ nav.scroll {
 .testimonials .cards .indicators li:not(.active) {
   background-color: #f0f0f0;
 }
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .contact .title {
   margin-bottom: 20px;
 }
@@ -657,86 +673,122 @@ nav.scroll {
   color: #777;
   text-align: center;
 }
+.contact .content {
+  position: relative;
+} 
 .contact .content .img-box img {
-  width: 100%;
+  width: 80%;
+  margin-left: 10%;
+}
+.contact .content > button {
+  width: 35%;
+  margin: 10px 32.5%;
 }
 .contact .content form {
-  margin: 20px 0;
-}
-.contact .content form div ,
-footer .newsletter form div {
+  width: 90%;
+  padding: 20px;
+  border-radius: 4px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: relative;
-}
-.contact .content form div input ,
-footer .newsletter form div input {
-  width: 100%;
-  padding: 8px 15px 8px 5px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  z-index: 200;
+  left: 5%;
+  top: 50%;
+  background-color: #f8f8f8;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  outline: none;
-  transition: .4s;
-  margin-bottom: 10px;
-}
-
-.contact .content form div input.active ,
-footer .newsletter form div input.active {
-  margin-bottom: 30px;
-}
-
-.contact .content form div textarea {
-  width: 100%;
-  height: 200px;
-  resize: none;
-  border: 1px solid #ddd;
-  outline: none;
-  border-radius: 5px;
-  padding: 5px;
-  margin-bottom: 30px;
+  transform: scale(0) translateY(-50%);
   transition: .4s;
 }
-
-.contact .content form div input::placeholder,
-.contact .content form div textarea::placeholder,
-footer .newsletter form div input::placeholder {
-  color: #858585;
-  letter-spacing: 1px;
+.contact .content form.show {
+  transform: scale(1) translateY(-50%);
 }
-
-.contact .content form div input:focus,
-.contact .content form div textarea:focus,
-footer .newsletter form div input:focus {
-  border-color: #DA6D00;
-}
-
-.contact .content form div p,
-footer .newsletter form div p {
-  position: absolute;
-  font-size: .9em;
-  bottom: 5px;
+.contact .content form > div {
   display: none;
 }
-
-.contact .content form div p img,
-footer .newsletter form div p img {
-  width: 22px;
-  height: 22px;
-  transform: translateY(8px);
-}
-
-.contact .content form div p.active,
-footer .newsletter form div p.active {
+.contact .content form > div.show {
   display: block;
 }
-
-.contact .content form button,
-footer .newsletter form button {
+.contact .content form > div:last-of-type {
   width: 100%;
-  padding: 10px 15px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  min-height: 200px;
+}
+.contact .content form > div:last-of-type img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 15px;
+}
+.contact .content form > div:last-of-type p {
+  color: #999;
+}
+.contact .content form > div:last-of-type.show {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.contact .content form > div input ,
+footer .newsletter form input {
+  width: 100%;
+  min-height: 42px;
+  padding-left: 8px;
+  margin-bottom: 10px;
+  outline: none;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+.contact .content form > div div,
+footer .newsletter form div.false div {
+  width: 100%;
+  min-height: 22px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  color: #454545;
+  font-size: .9em;
+  padding-left: 20px;
+  position: relative;
+  transition: .4s;
+}
+footer .newsletter form div.false div {
+  color: #fff;
+}
+.contact .content form div span,
+footer .newsletter form div.false div span {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  position: absolute;
+  top: calc(50% - 8px);
+  left: 0;
+  transition: .4s;
+}
+.contact .content form div span.false ,
+footer .newsletter form div.false div span {
+  background-image: url("../images/error.svg");
+  background-size: cover;
+}
+.contact .content form button {
+  width: 48%;
+}
+.contact .content form button.disabled,
+.contact .content > button.disabled,
+.contact .content form button.disabled:focus,
+.contact .content>button.disabled:focus {
+  background-color: #eee;
+  color: #999;
+  box-shadow: none;
+  pointer-events: none;
+  cursor: no-drop;
+}
+.contact .content form textarea {
+  width: 100%;
+  height: 250px;
+  border-radius: 2px;
+  padding: 10px;
+  outline: none;
+  resize: none;
 }
 footer {
   background-color: #333;
@@ -787,6 +839,7 @@ footer .newsletter .social {
 }
 footer .newsletter .social img {
   transform: scale(1.4);
+  cursor: pointer;
   margin: 0 6px;
 }
 footer .newsletter .social img:nth-of-type(2) {
@@ -795,4 +848,9 @@ footer .newsletter .social img:nth-of-type(2) {
 footer .copy-right p {
   text-align: center;
   font-size: .95em;
+}
+footer .newsletter form button {
+  width: 100%;
+  min-height: 42px;
+  transition: .4s;
 }
